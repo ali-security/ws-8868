@@ -8,6 +8,7 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         node:
           - 8
@@ -16,7 +17,7 @@ jobs:
           - 14
           - 15
         os:
-          - macOS-latest
+          - macOS-13
           - ubuntu-latest
           - windows-latest
     steps:
@@ -33,11 +34,3 @@ jobs:
           flag-name: Node.js ${{ matrix.node }} on ${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
-  coverage:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: coverallsapp/github-action@v1.1.2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
